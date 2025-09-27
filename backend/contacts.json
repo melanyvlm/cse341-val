@@ -1,0 +1,23 @@
+[
+  {
+    "firstName": "Milagros",
+    "lastName": "Almandros",
+    "email": "milagros@test.com",
+    "favoriteColor": "Green",
+    "birthday": "12/10/75"
+  },
+  {
+    "firstName": "Marjorie", 
+    "lastName": "Herrera",
+    "email": "mherrera27@test.com", 
+    "favoriteColor": "Purple",
+    "birthday": "01/21/96"
+  },
+  {
+    "firstName": "Luther",
+    "lastName": "Levine",
+    "email": "lulevine@test.com",
+    "favoriteColor": "Yellow", 
+    "birthday": "08/21/95"
+  }
+]

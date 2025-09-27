@@ -233,3 +233,214 @@ img {
     display: block;
   }
 }
+/* ===== SECCIÓN CONTACTS ===== */
+.contacts-section {
+    padding: 40px 20px;
+    margin-top: 40px;
+    border-top: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.contacts-section h1 {
+    text-align: center;
+    font-size: 3.2em;
+    font-weight: 100;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    color: #fff;
+}
+
+/* Contenedor de contactos */
+#contactsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Tarjeta individual de contacto */
+.contact {
+    background: rgba(40, 40, 40, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 25px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.contact:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    border-color: rgba(52, 152, 219, 0.5);
+}
+
+.contact h3 {
+    color: #3498db;
+    font-size: 2em;
+    font-weight: 300;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+}
+
+.contact p {
+    font-size: 1.4em;
+    margin: 8px 0;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.contact button {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: 300;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.contact button:hover {
+    background: linear-gradient(135deg, #2980b9, #3498db);
+    transform: scale(1.05);
+}
+
+.contact hr {
+    border: none;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 15px 0;
+}
+
+/* Sección de contacto individual */
+#singleContact {
+    background: rgba(40, 40, 40, 0.9);
+    border: 1px solid rgba(52, 152, 219, 0.3);
+    border-radius: 10px;
+    padding: 30px;
+    margin-top: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    backdrop-filter: blur(10px);
+}
+
+#singleContact h2 {
+    color: #3498db;
+    font-size: 2.4em;
+    font-weight: 300;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#singleContact p {
+    font-size: 1.6em;
+    margin: 12px 0;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+#singleContact strong {
+    color: #3498db;
+    font-weight: 400;
+}
+
+/* Responsive para contacts */
+@media (max-width: 768px) {
+    .contacts-section {
+        padding: 20px 10px;
+    }
+    
+    .contacts-section h1 {
+        font-size: 2.4em;
+    }
+    
+    #contactsContainer {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .contact {
+        padding: 20px;
+    }
+    
+    .contact h3 {
+        font-size: 1.8em;
+    }
+    
+    #singleContact {
+        padding: 20px;
+        margin: 20px 10px;
+    }
+    
+    #singleContact h2 {
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 480px) {
+    .contacts-section h1 {
+        font-size: 2em;
+    }
+    
+    .contact h3 {
+        font-size: 1.6em;
+    }
+    
+    .contact p {
+        font-size: 1.2em;
+    }
+    
+    #singleContact h2 {
+        font-size: 1.8em;
+    }
+    
+    #singleContact p {
+        font-size: 1.4em;
+    }
+}
+
+/* Efectos de animación suave */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.contact {
+    animation: fadeIn 0.6s ease-out;
+}
+
+#singleContact {
+    animation: fadeIn 0.8s ease-out;
+}
+
+/* Scroll suave */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Mejoras para los enlaces en la sección professional */
+#linkedInLink, #githubLink {
+    color: #3498db;
+    transition: color 0.3s ease;
+}
+
+#linkedInLink:hover, #githubLink:hover {
+    color: #2980b9;
+    text-decoration: none;
+}
+
+/* Ajuste para que el contenedor de contacts no se solape con la pirámide */
+@media (min-width: 881px) {
+    .contacts-section {
+        margin-top: 80px;
+    }
+}

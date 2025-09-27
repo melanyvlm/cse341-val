@@ -1,1 +1,3 @@
 GET http://localhost:8080/professional
+### GET todos los contactos
+GET http://localhost:8080/contacts
