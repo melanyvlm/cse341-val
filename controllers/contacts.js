@@ -1,4 +1,5 @@
 const mongodb = require('../db/connect');
+const ObjectId = require('mongodb').ObjectId;
 
 // GET todos los contactos
 const getAllContacts = async (req, res, next) => {
@@ -16,7 +17,14 @@ const getAllContacts = async (req, res, next) => {
 const getSingleContact = async (req, res, next) => {
   try {
     const userId = req.params.id;
-    const result = await mongodb.getDb().db().collection('contacts').findOne({ _id: require('mongodb').ObjectId(userId) });
+    
+    if (!ObjectId.isValid(userId)) {
+      return res.status(400).json({ error: 'Invalid ID format' });
+    }
+    
+    const result = await mongodb.getDb().db().collection('contacts').findOne({ 
+      _id: new ObjectId(userId) 
+    });
     
     if (result) {
       res.setHeader('Content-Type', 'application/json');
