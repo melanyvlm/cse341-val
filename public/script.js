@@ -1,107 +1,81 @@
-// Función auxiliar para fetch
-async function apiFetch(url) {
-    const response = await fetch(url);
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data = await response.json();
-    return data;
-}
+// 🌐 Cambia esta URL si estás en Render:
+// const API_URL = "http://localhost:8080/contacts";
+const API_URL = "https://cse341-val.onrender.com/contacts";
 
-// Función para professional - usa ruta relativa
-const getProfessionalData = async () => {
-    try {
-        const data = await apiFetch('/professional');  // ← Cambiado
-        displayProfessionalData(data);
-    } catch (error) {
-        console.error('Error loading professional data:', error);
-    }
-};
+document.getElementById("loadContactsBtn").addEventListener("click", loadContacts);
+document.getElementById("contactForm").addEventListener("submit", addContact);
 
-// Función para contacts - usa ruta relativa  
-const getContactsData = async () => {
-    try {
-        const contacts = await apiFetch('/contacts');  // ← Cambiado
-        displayContacts(contacts);
-    } catch (error) {
-        console.error('Error loading contacts:', error);
-    }
-};
+async function loadContacts() {
+  try {
+    const res = await fetch(API_URL);
+    const contacts = await res.json();
 
-// Función global para single contact
-window.getSingleContact = async (id) => {
-    try {
-        const contact = await apiFetch(`/contacts/${id}`);  // ← Cambiado
-        displaySingleContact(contact);
-    } catch (error) {
-        console.error('Error loading single contact:', error);
-    }
-};
+    const list = document.getElementById("contactList");
+    list.innerHTML = "";
 
-// Display functions (mantén igual)
-function displayProfessionalData(data) {
-    displayProfessionalName(data.professionalName);
-    displayImage(data.base64Image);
-    displayPrimaryDescription(data);
-    displayWorkDescription(data);
-    displayLinkTitleText(data);
-    displayLinkedInLink(data);
-    displayGitHubLink(data);
-}
-
-function displayProfessionalName(n) {
-    let professionalName = document.getElementById('professionalName');
-    if (professionalName) professionalName.innerHTML = n;
-}
-
-function displayImage(img) {
-    let image = document.getElementById('professionalImage');
-    if (image) image.src = `data:image/png;base64, ${img}`;
-}
-
-// ... (mantén todas las otras display functions igual)
-
-function displayContacts(contacts) {
-    const container = document.getElementById('contactsContainer');
-    if (!container) return;
-    
-    container.innerHTML = '';
-    
-    contacts.forEach(contact => {
-        const contactDiv = document.createElement('div');
-        contactDiv.className = 'contact';
-        contactDiv.innerHTML = `
-            <h3>${contact.firstName} ${contact.lastName}</h3>
-            <p>Email: ${contact.email}</p>
-            <p>Favorite Color: ${contact.favoriteColor}</p>
-            <p>Birthday: ${contact.birthday}</p>
-            <hr>
-        `;
-        container.appendChild(contactDiv);
+    contacts.forEach((c) => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <div>
+          <strong>${c.firstName} ${c.lastName}</strong><br>
+          📧 ${c.email}<br>
+          🎨 ${c.favoriteColor}<br>
+          🎂 ${c.birthday}
+        </div>
+        <div>
+          <button onclick="deleteContact('${c._id}')">🗑️</button>
+        </div>
+      `;
+      list.appendChild(li);
     });
+  } catch (err) {
+    alert("Error al cargar los contactos ❌");
+    console.error(err);
+  }
 }
 
-function displaySingleContact(contact) {
-    const container = document.getElementById('singleContact');
-    if (!container) return;
-    
-    container.innerHTML = `
-        <h2>Contacts</h2>
-        <p><strong>Name:</strong> ${contact.firstName} ${contact.lastName}</p>
-        <p><strong>Email:</strong> ${contact.email}</p>
-        <p><strong>Favorite Color:</strong> ${contact.favoriteColor}</p>
-        <p><strong>Birthday:</strong> ${contact.birthday}</p>
-    `;
-}
+async function addContact(e) {
+  e.preventDefault();
 
-// Inicializar cuando la página cargue
-document.addEventListener('DOMContentLoaded', function() {
-    // Siempre cargar professional data
-    getProfessionalData();
-    
-    // Solo cargar contacts si existe el container
-    const contactsContainer = document.getElementById('contactsContainer');
-    if (contactsContainer) {
-        getContactsData();
+  const newContact = {
+    firstName: document.getElementById("firstName").value,
+    lastName: document.getElementById("lastName").value,
+    email: document.getElementById("email").value,
+    favoriteColor: document.getElementById("favoriteColor").value,
+    birthday: document.getElementById("birthday").value,
+  };
+
+  try {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newContact),
+    });
+
+    if (res.ok) {
+      alert("✅ Contacto agregado");
+      loadContacts();
+      document.getElementById("contactForm").reset();
+    } else {
+      alert("❌ Error al agregar el contacto");
     }
-});
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function deleteContact(id) {
+  if (!confirm("¿Seguro que quieres eliminar este contacto?")) return;
+
+  try {
+    const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+    if (res.ok) {
+      alert("🗑️ Contacto eliminado");
+      loadContacts();
+    } else {
+      alert("❌ Error al eliminar el contacto");
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
